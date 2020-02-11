@@ -1,0 +1,12 @@
+package com.bignerdanch.contacts.business.addcontact
+
+import com.bignerdanch.contacts.data.Contact
+import io.reactivex.Completable
+import io.reactivex.Single
+import java.util.*
+
+interface IAddContactInteractor {
+    fun addContact(): Single<UUID?>?
+
+    fun updateContact(contact: Contact): Completable
+}

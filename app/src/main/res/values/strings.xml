@@ -1,0 +1,23 @@
+<resources>
+    <string name="first_name">Имя*</string>
+    <string name="last_name">Фамилия</string>
+    <string name="midle_name">Отчество</string>
+    <string name="telephone_title">Телефон</string>
+    <string name="telephone_number">Номер телефона</string>
+    <string name="address_title">Адрес</string>
+    <string name="address_hint">Адрес контакта</string>
+
+    <string name="contact_name">%s %s</string>
+    <string name="no_name">Имя не указано</string>
+    <string name="no_telephone">Номер не указан</string>
+    <string name="no_address">Адрес не указан</string>
+
+    <string name="add_new_contact">Добавить</string>
+    <string name="show_on_map">Показать на карте</string>
+
+    <string name="edit_contact">Редактировать</string>
+    <string name="save_contact">Сохранить</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Контакты</string>
+    <string name="phone_name">Номер телефона*</string>
+</resources>
