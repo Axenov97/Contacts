@@ -17,4 +17,8 @@ class AddContactInteractor(private var addContactRepository: AddContactRepositor
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    override fun loadContact(contactId: UUID): Single<Contact>? {
+        return addContactRepository.loadContact(contactId)
+    }
 }

@@ -21,6 +21,7 @@ class AddContactFragment : Fragment(), IAddContactFragment {
     @Inject
     lateinit var addContactPresenter: IAddContactPresenter
 
+    private var contactId : UUID? = null
     private lateinit var listener: OnListFragmentDataListener
     private var binding : ContactFragmentBinding? = null
 
@@ -29,6 +30,8 @@ class AddContactFragment : Fragment(), IAddContactFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        if (arguments != null)
+            contactId = UUID.fromString(arguments!!.getString(ARG_CONTACT_ID))
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -37,6 +40,16 @@ class AddContactFragment : Fragment(), IAddContactFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         addContactPresenter.attachView(this)
+        if (contactId != null){
+            addContactPresenter.loadContact(contactId!!)
+        }
+    }
+
+    override fun loadContactInfo(contact: Contact) {
+        first_name_edit_text.setText(contact.firstName)
+        last_name_edit_text.setText(contact.lastName)
+        midle_name_edit_text.setText(contact.midleName)
+        phone_edit_text.setText(contact.telNumber)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -51,7 +64,11 @@ class AddContactFragment : Fragment(), IAddContactFragment {
                     phone_edit_text.setHintTextColor(Color.RED)
                     true
                 } else {
-                    addContact()
+                    if(contactId == null) {
+                        addContact()
+                    }
+                    else
+                        saveContact(contactId!!)
                     true
                 }
             }
@@ -82,8 +99,8 @@ class AddContactFragment : Fragment(), IAddContactFragment {
     }
 
     companion object {
-        val TAG = "ContactFragment"
-        val ARG_CONTACT_ID = "contact_id"
+        const val TAG = "ContactFragment"
+        const val ARG_CONTACT_ID = "contact_id"
     }
 
     override fun onDestroy() {

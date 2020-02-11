@@ -14,4 +14,8 @@ class AddContactRepository(private var dataBaseProvider : IDataBaseProvider) : I
     override fun updateContact(contact: Contact): Completable
             = dataBaseProvider.updateContact(contact)
 
+    override fun loadContact(contactId: UUID): Single<Contact>? {
+        return dataBaseProvider.loadContact(contactId)
+    }
+
 }

@@ -16,6 +16,12 @@ class ShowContactPresenter(var showContactInteractor: ShowContactInteractor) : I
         showFragment = view
     }
 
+    override fun updateContact(contactId: UUID) {
+//        disposer.add(
+//            showContactInteractor.updateContact(contactId)
+//        )
+    }
+
     override fun loadContact(contactId: UUID) {
         disposer.add(
             showContactInteractor.loadContact(contactId).subscribe (
@@ -24,11 +30,11 @@ class ShowContactPresenter(var showContactInteractor: ShowContactInteractor) : I
         )
     }
 
+    private fun onSuccess(contact: Contact)
+            = showFragment.loadContactInfo(contact)
+
     private fun onError(throwable: Throwable)
             = Log.e(TAG, javaClass.simpleName + " onError ")
-
-    private fun onSuccess(contact: Contact)
-           = showFragment.loadContactInfo(contact)
 
     companion object {
         const val TAG = "ShowContactPresenter"

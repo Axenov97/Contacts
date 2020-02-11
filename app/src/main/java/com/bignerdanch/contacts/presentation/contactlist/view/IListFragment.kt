@@ -7,7 +7,7 @@ interface IListFragment {
 
     fun openContact(contactId: UUID?)
 
-    fun openAddContact()
+    fun openAddContact(contactId: UUID?)
 
     fun updateContactsList(contactsList: List<Contact>)
 

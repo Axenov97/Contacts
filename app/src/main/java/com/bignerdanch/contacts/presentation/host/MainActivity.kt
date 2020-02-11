@@ -25,17 +25,30 @@ class MainActivity : AppCompatActivity(), OnListFragmentDataListener {
         }
     }
 
-    override fun onOpenAddContact() {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, AddContactFragment(), AddContactFragment.TAG)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .addToBackStack(AddContactFragment.TAG)
-            .commit()
+    override fun onOpenAddContact(contactId: UUID?) {
+        val fragmentReplace = AddContactFragment()
+        val bundle = Bundle()
+        bundle.putString(AddContactFragment.ARG_CONTACT_ID, contactId.toString())
+        fragmentReplace.arguments = bundle
+
+        if(contactId == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, AddContactFragment(), AddContactFragment.TAG)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .addToBackStack(AddContactFragment.TAG)
+                .commit()
+        }
+        else{
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragmentReplace, AddContactFragment.TAG)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(AddContactFragment.TAG)
+                .commit()
+        }
     }
 
     override fun onOpenContact(contactId: UUID?) {
-        val fragmentReplace =
-            ShowContactFragment()
+        val fragmentReplace = ShowContactFragment()
         val bundle = Bundle()
         bundle.putString(ShowContactFragment.ARG_CONTACT_ID, contactId.toString())
         fragmentReplace.arguments = bundle

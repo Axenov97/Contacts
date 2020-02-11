@@ -43,4 +43,14 @@ class AddContactPresenter(private var addContactInteractor: AddContactInteractor
 
     private fun onUpdate(): Int = Log.i("MY_TAG", " - контакт был успешно обновлен" )
 
+    override fun loadContact(contactId: UUID) {
+        disposer.add(
+            addContactInteractor.loadContact(contactId)!!.subscribe (
+                { contact: Contact -> onSuccess(contact)},
+                { throwable: Throwable -> onError(throwable) })
+        )
+    }
+
+    private fun onSuccess(contact: Contact)
+            = addContactFragment.loadContactInfo(contact)
 }

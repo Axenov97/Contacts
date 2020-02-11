@@ -4,7 +4,7 @@ import java.util.*
 
 interface OnListFragmentDataListener {
 
-    fun onOpenAddContact()
+    fun onOpenAddContact(contactId: UUID?)
 
     fun onOpenContact(contactId:UUID?)
     

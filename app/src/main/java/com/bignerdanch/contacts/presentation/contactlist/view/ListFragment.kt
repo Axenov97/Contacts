@@ -46,10 +46,10 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     }
 
     override fun onClick(v: View?)
-            = openAddContact()
+            = openAddContact(null)
 
-    override fun openAddContact()
-            = listener.onOpenAddContact()
+    override fun openAddContact(contactId: UUID?)
+            = listener.onOpenAddContact(contactId)
 
     override fun updateContactsList(contactsList: List<Contact>) {
         contacts.clear()

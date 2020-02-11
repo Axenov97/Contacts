@@ -8,4 +8,6 @@ interface IShowContactPresenter {
 
     fun attachView(view: IShowContactFragment)
 
+    fun updateContact(contactId: UUID)
+
 }

@@ -9,4 +9,6 @@ interface IAddContactInteractor {
     fun addContact(): Single<UUID?>?
 
     fun updateContact(contact: Contact): Completable
+
+    fun loadContact(contactId: UUID): Single<Contact>?
 }

@@ -20,4 +20,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="app_name">Контакты</string>
     <string name="phone_name">Номер телефона*</string>
+    <string name="update_contact">редактировать</string>
 </resources>
