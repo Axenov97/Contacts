@@ -3,6 +3,7 @@ package com.bignerdanch.contacts.presentation.contactlist.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdanch.contacts.R
@@ -20,17 +21,15 @@ class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
             = holder.bind(contacts[position])
 
-    fun updateList(contactsList: List<Contact?>?)
-            = notifyDataSetChanged()
-
-
     inner class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder
         (inflater.inflate(R.layout.item_view, parent, false)), View.OnClickListener {
 
         private val name: TextView = itemView.findViewById(R.id.contact_name)
+        private val dots: ImageView = itemView.findViewById(R.id.dots_menu)
         private lateinit var contacts :Contact
 
         init {
+            dots.setOnClickListener(this)
             itemView.setOnClickListener(this)
         }
 
@@ -39,11 +38,20 @@ class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts
             name.text = contact.firstName
         }
         override fun onClick(v: View?) {
-            onItemClick.onClickContact(contacts.contactId)
+        when(v!!.id){
+            R.id.item_view ->
+                onItemClick.onClickContact(contacts.contactId)
+
+            R.id.dots_menu ->
+                onItemClick.onClickContactMenu(contacts.contactId, dots)
+            }
         }
+
     }
 }
 
 interface IOnItemClick{
     fun onClickContact(contactId : UUID)
+
+    fun onClickContactMenu(contactId : UUID, view : View)
 }

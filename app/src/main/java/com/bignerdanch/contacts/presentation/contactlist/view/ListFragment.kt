@@ -3,11 +3,15 @@ package com.bignerdanch.contacts.presentation.contactlist.view
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bignerdanch.contacts.App
+import com.bignerdanch.contacts.R
 import com.bignerdanch.contacts.dagger2.contactlist.ContactListModule
 import com.bignerdanch.contacts.data.Contact
 import com.bignerdanch.contacts.databinding.ListFragmentBinding
@@ -19,7 +23,8 @@ import kotlinx.android.synthetic.main.list_fragment.*
 import java.util.*
 import javax.inject.Inject
 
-class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemClick {
+
+class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemClick, PopupMenu.OnMenuItemClickListener {
 
     private var binding: ListFragmentBinding? = null
     private lateinit var recyclerAdapter: ContactAdapter
@@ -54,7 +59,7 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     override fun updateContactsList(contactsList: List<Contact>) {
         contacts.clear()
         contacts.addAll(contactsList)
-        recyclerAdapter.updateList(contacts)
+        recyclerAdapter.notifyDataSetChanged()
     }
 
     override fun onClickContact(contactId: UUID)
@@ -62,6 +67,30 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
 
     override fun openContact(contactId: UUID?)
             = listener.onOpenContact(contactId)
+
+    override fun onClickContactMenu(contactId: UUID, view: View)
+            = showPopUpMenu(view)
+
+    private fun showPopUpMenu(view: View) {
+        val popupMenu = PopupMenu(activity!!, view)
+        popupMenu.setOnMenuItemClickListener(this)
+        popupMenu.inflate(R.menu.popup_menu)
+        popupMenu.show()
+    }
+
+    override fun onMenuItemClick(item: MenuItem?): Boolean {
+        return when (item!!.itemId) {
+            R.id.popup_delete -> {
+                Toast.makeText(activity, "delete", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.popup_update ->{
+                Toast.makeText(activity, "update", Toast.LENGTH_SHORT).show()
+                true
+            }
+          else -> false
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -81,4 +110,6 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     companion object {
         const val TAG = "ListFragment"
     }
+
+
 }
