@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +29,7 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     private lateinit var recyclerAdapter: ContactAdapter
     private lateinit var listener: OnListFragmentDataListener
     private val contacts = ArrayList<Contact>()
+    private lateinit var id: UUID
 
     @Inject
     lateinit var listPresenter: IContactListPresenter
@@ -63,16 +63,14 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     }
 
     override fun onClickContact(contactId: UUID)
-            = listPresenter.onClickContact(contactId)
-
-    override fun openContact(contactId: UUID?)
             = listener.onOpenContact(contactId)
 
     override fun onClickContactMenu(contactId: UUID, view: View)
-            = showPopUpMenu(view)
+            = showPopUpMenu(view, contactId)
 
-    private fun showPopUpMenu(view: View) {
+    override fun showPopUpMenu(view: View, contactId: UUID) {
         val popupMenu = PopupMenu(activity!!, view)
+        id = contactId
         popupMenu.setOnMenuItemClickListener(this)
         popupMenu.inflate(R.menu.popup_menu)
         popupMenu.show()
@@ -81,11 +79,11 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return when (item!!.itemId) {
             R.id.popup_delete -> {
-                Toast.makeText(activity, "delete", Toast.LENGTH_SHORT).show()
+                listPresenter.deleteContact(id)
                 true
             }
             R.id.popup_update ->{
-                Toast.makeText(activity, "update", Toast.LENGTH_SHORT).show()
+                openAddContact(id)
                 true
             }
           else -> false

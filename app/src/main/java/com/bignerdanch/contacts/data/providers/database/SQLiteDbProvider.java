@@ -1,7 +1,5 @@
 package com.bignerdanch.contacts.data.providers.database;
 
-import android.util.Log;
-
 import com.bignerdanch.contacts.data.Contact;
 import com.bignerdanch.contacts.data.providers.database.MyStorIOSQLite.IMyStorIOSQLite;
 import com.bignerdanch.contacts.data.providers.database.MyStorIOSQLite.MyStorIOSQLite;
@@ -22,7 +20,6 @@ public class SQLiteDbProvider implements IDataBaseProvider {
 
     @Override
     public Single<UUID> addContact() {
-        Log.i("MY_TAG", "отработал фаб в SqliteProvider");
         return Single.fromCallable(() -> mDataBase.addContact());
     }
 

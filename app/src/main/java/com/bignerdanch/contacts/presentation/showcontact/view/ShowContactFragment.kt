@@ -54,7 +54,6 @@ class ShowContactFragment : Fragment(), IShowContactFragment {
         return when (item.itemId) {
             R.id.update_contact -> {
                 listener.onOpenAddContact(contactId)
-//                updateContact(contactId!!)
                 true
             }
             else -> super.onOptionsItemSelected(item)

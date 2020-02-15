@@ -15,8 +15,15 @@ class ContactListPresenter(var contactListInteractor: IContactListInteractor) : 
         listFragment = view
     }
 
-    override fun onClickContact(contactId: UUID) {
-        listFragment.openContact(contactId)
+    override fun deleteContact(contactid: UUID) {
+        disposer.add(contactListInteractor.deleteContact(contactid).subscribe(
+            { onDeleteSuccess() },
+            { throwable: Throwable? -> onError(throwable) })
+        )
+    }
+
+    private fun onDeleteSuccess(){
+        loadContactsList()
     }
 
     override fun loadContactsList() {
