@@ -9,6 +9,8 @@ interface IContactListPresenter {
 
     fun loadContactsList()
 
+    fun loadContact(contactid: UUID)
+
     fun deleteContact(contactid: UUID)
 
 }

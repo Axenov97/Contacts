@@ -6,13 +6,24 @@ import com.bignerdanch.contacts.presentation.contactlist.view.IListFragment
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 
-class ContactListPresenter(var contactListInteractor: IContactListInteractor) : IContactListPresenter {
+class ContactListPresenter(private var contactListInteractor: IContactListInteractor) : IContactListPresenter {
 
     private lateinit var listFragment :IListFragment
     private val disposer = CompositeDisposable()
 
     override fun attachView(view: IListFragment) {
         listFragment = view
+    }
+
+    override fun loadContact(contactid: UUID) {
+        disposer.add(contactListInteractor.loadContact(contactid).subscribe(
+            {contact: Contact -> getContactSuccess(contact)},
+            {throwable: Throwable? -> onError(throwable) })
+        )
+    }
+
+    private fun getContactSuccess(contact : Contact) {
+        listFragment.ring(contact)
     }
 
     override fun deleteContact(contactid: UUID) {

@@ -8,11 +8,13 @@ import java.util.*
 
 class ContactListRepository(private val dataBaseProvider: IDataBaseProvider): IContactListRepository {
 
-    override fun loadContactsList(): Single<List<Contact?>?>? {
-        return dataBaseProvider.loadContactsList()
-    }
+    override fun loadContactsList(): Single<List<Contact?>?>?
+            = dataBaseProvider.loadContactsList()
 
     override fun deleteContact(contactId: UUID): Completable
             = dataBaseProvider.deleteContact(contactId)
+
+    override fun loadContact(contactId: UUID): Single<Contact>
+            = dataBaseProvider.loadContact(contactId)
 
 }

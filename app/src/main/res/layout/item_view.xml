@@ -37,7 +37,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/contact_have_telephone"
+        android:id="@+id/ring"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginEnd="24dp"

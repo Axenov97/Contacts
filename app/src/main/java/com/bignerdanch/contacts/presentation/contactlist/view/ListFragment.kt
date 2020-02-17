@@ -1,6 +1,8 @@
 package com.bignerdanch.contacts.presentation.contactlist.view
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -67,6 +69,17 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
 
     override fun onClickContactMenu(contactId: UUID, view: View)
             = showPopUpMenu(view, contactId)
+
+    override fun onClickRing(contactId: UUID, view: View) {
+        listPresenter.loadContact(contactId)
+    }
+
+    override fun ring(contact : Contact) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:${contact.telNumber}")
+        //Toast.makeText(activity, "${contact.telNumber}", Toast.LENGTH_SHORT).show()
+        startActivity(intent)
+    }
 
     override fun showPopUpMenu(view: View, contactId: UUID) {
         val popupMenu = PopupMenu(activity!!, view)

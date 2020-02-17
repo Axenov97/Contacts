@@ -10,4 +10,6 @@ interface IContactListInteractor {
     fun loadContactsList(): Single<List<Contact?>?>
 
     fun deleteContact(contactId: UUID?): Completable
+
+    fun loadContact(contactId: UUID?): Single<Contact>
 }

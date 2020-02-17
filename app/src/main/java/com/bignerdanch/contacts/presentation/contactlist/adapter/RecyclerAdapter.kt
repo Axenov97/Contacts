@@ -26,10 +26,12 @@ class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts
 
         private val name: TextView = itemView.findViewById(R.id.contact_name)
         private val dots: ImageView = itemView.findViewById(R.id.dots_menu)
+        private val ring: ImageView = itemView.findViewById(R.id.ring)
         private lateinit var contacts :Contact
 
         init {
             dots.setOnClickListener(this)
+            ring.setOnClickListener(this)
             itemView.setOnClickListener(this)
         }
 
@@ -44,6 +46,9 @@ class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts
 
             R.id.dots_menu ->
                 onItemClick.onClickContactMenu(contacts.contactId, dots)
+
+            R.id.ring ->
+                onItemClick.onClickRing(contacts.contactId, ring)
             }
         }
 
@@ -54,4 +59,6 @@ interface IOnItemClick{
     fun onClickContact(contactId : UUID)
 
     fun onClickContactMenu(contactId : UUID, view : View)
+
+    fun onClickRing(contactId : UUID, view : View)
 }
