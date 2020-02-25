@@ -18,7 +18,6 @@ class AddContactPresenter(private var addContactInteractor: AddContactInteractor
     }
 
     override fun addContact() {
-        Log.i("MY_TAG", "отработал фаб на презентере")
         disposer.add(
             addContactInteractor.addContact()!!.subscribe(
                 { contactId: UUID? -> this.onAddSuccess(contactId) },
@@ -26,18 +25,13 @@ class AddContactPresenter(private var addContactInteractor: AddContactInteractor
         )
     }
 
-    private fun onAddSuccess(contactId: UUID?)
-            = addContactFragment.saveContact(contactId!!)
+    private fun onAddSuccess(contactId: UUID?) = addContactFragment.saveContact(contactId!!)
 
-    private fun onError(throwable: Throwable?)
-            = Log.e(ContactListPresenter.TAG, javaClass.simpleName + " onError ")
+    private fun onError(throwable: Throwable?) = Log.e(ContactListPresenter.TAG, javaClass.simpleName + " onError ")
 
     override fun updateContact(contact: Contact) {
-        disposer.add(
-            addContactInteractor.updateContact(contact)
-                .subscribe(
-                    { onUpdate() },
-                    { throwable: Throwable? -> onError(throwable) })
+        disposer.add(addContactInteractor.updateContact(contact)
+                .subscribe( { onUpdate() }, { throwable: Throwable? -> onError(throwable) } )
         )
     }
 
@@ -51,6 +45,5 @@ class AddContactPresenter(private var addContactInteractor: AddContactInteractor
         )
     }
 
-    private fun onSuccess(contact: Contact)
-            = addContactFragment.loadContactInfo(contact)
+    private fun onSuccess(contact: Contact) = addContactFragment.loadContactInfo(contact)
 }

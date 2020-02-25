@@ -8,7 +8,7 @@ import java.util.*
 
 class ContactListPresenter(private var contactListInteractor: IContactListInteractor) : IContactListPresenter {
 
-    private lateinit var listFragment :IListFragment
+    private lateinit var listFragment: IListFragment
     private val disposer = CompositeDisposable()
 
     override fun attachView(view: IListFragment) {
@@ -22,9 +22,7 @@ class ContactListPresenter(private var contactListInteractor: IContactListIntera
         )
     }
 
-    private fun getContactSuccess(contact : Contact) {
-        listFragment.ring(contact)
-    }
+    private fun getContactSuccess(contact: Contact) = listFragment.ring(contact)
 
     override fun deleteContact(contactid: UUID) {
         disposer.add(contactListInteractor.deleteContact(contactid).subscribe(
@@ -33,9 +31,7 @@ class ContactListPresenter(private var contactListInteractor: IContactListIntera
         )
     }
 
-    private fun onDeleteSuccess(){
-        loadContactsList()
-    }
+    private fun onDeleteSuccess() = loadContactsList()
 
     override fun loadContactsList() {
         disposer.add(
@@ -45,11 +41,9 @@ class ContactListPresenter(private var contactListInteractor: IContactListIntera
         )
     }
 
-    private fun onLoadSuccess(contactList: List<Contact>) =
-        listFragment.updateContactsList(contactList)
+    private fun onLoadSuccess(contactList: List<Contact>) = listFragment.updateContactsList(contactList)
 
-    private fun onError(throwable: Throwable?)
-            = Log.e(TAG, javaClass.simpleName + " onError ")
+    private fun onError(throwable: Throwable?) = Log.e(TAG, javaClass.simpleName + " onError ")
 
     companion object {
         val TAG = "ContactListPresenter"

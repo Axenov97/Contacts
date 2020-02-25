@@ -7,18 +7,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.*
 
-class AddContactInteractor(private var addContactRepository: AddContactRepository):IAddContactInteractor {
+class AddContactInteractor(private var addContactRepository: AddContactRepository) : IAddContactInteractor {
 
-    override fun addContact(): Single<UUID?>? =
-        addContactRepository.addContact()
+    override fun addContact(): Single<UUID?>? = addContactRepository.addContact()
 
-    override fun updateContact(contact: Contact): Completable{
-        return addContactRepository.updateContact(contact)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
+    override fun updateContact(contact: Contact): Completable = addContactRepository
+        .updateContact(contact)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
 
-    override fun loadContact(contactId: UUID): Single<Contact>? {
-        return addContactRepository.loadContact(contactId)
-    }
+    override fun loadContact(contactId: UUID): Single<Contact>? = addContactRepository.loadContact(contactId)
+
 }

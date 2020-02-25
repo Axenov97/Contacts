@@ -7,7 +7,6 @@ import java.util.*
 
 class ShowContactInteractor(var showContactReposytory: IShowContactRepository) : IShowContactInteractor {
 
-    override fun loadContact(contactId: UUID): Single<Contact> {
-        return showContactReposytory.loadContact(contactId)
-    }
+    override fun loadContact(contactId: UUID): Single<Contact> = showContactReposytory.loadContact(contactId)
+
 }

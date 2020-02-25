@@ -1,4 +1,4 @@
-package com.bignerdanch.contacts.dagger2.showcontact
+package com.bignerdanch.contacts.di.showcontact
 
 import com.bignerdanch.contacts.business.showcontact.IShowContactInteractor
 import com.bignerdanch.contacts.business.showcontact.ShowContactInteractor

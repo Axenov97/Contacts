@@ -10,20 +10,20 @@ import java.util.*
 
 class ContactListInteractor(private var contactListRepository: IContactListRepository):IContactListInteractor {
 
-    override fun loadContactsList(): Single<List<Contact?>?>
-            = contactListRepository.loadContactsList()!!
+    override fun loadContactsList(): Single<List<Contact?>?> = contactListRepository
+        .loadContactsList()!!
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
 
-    override fun deleteContact(contactId: UUID?): Completable
-            = contactListRepository.deleteContact(contactId!!)
+    override fun deleteContact(contactId: UUID?): Completable = contactListRepository
+        .deleteContact(contactId!!)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
 
-    override fun loadContact(contactId: UUID?): Single<Contact>
-            = contactListRepository.loadContact(contactId!!)
+    override fun loadContact(contactId: UUID?): Single<Contact> = contactListRepository
+        .loadContact(contactId!!)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 

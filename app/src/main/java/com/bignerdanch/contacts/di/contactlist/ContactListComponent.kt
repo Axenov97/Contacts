@@ -1,4 +1,4 @@
-package com.bignerdanch.contacts.dagger2.contactlist
+package com.bignerdanch.contacts.di.contactlist
 
 import com.bignerdanch.contacts.presentation.contactlist.view.ListFragment
 import dagger.Subcomponent

@@ -1,4 +1,4 @@
-package com.bignerdanch.contacts.dagger2.application
+package com.bignerdanch.contacts.di.application
 
 import android.content.Context
 import com.bignerdanch.contacts.data.providers.database.IDataBaseProvider

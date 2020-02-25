@@ -1,29 +1,34 @@
 package com.bignerdanch.contacts.presentation.addcontact.view
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.bignerdanch.contacts.App
 import com.bignerdanch.contacts.R
-import com.bignerdanch.contacts.dagger2.addcontact.AddContactModule
 import com.bignerdanch.contacts.data.Contact
 import com.bignerdanch.contacts.databinding.ContactFragmentBinding
+import com.bignerdanch.contacts.di.addcontact.AddContactModule
 import com.bignerdanch.contacts.presentation.addcontact.presenter.IAddContactPresenter
 import com.bignerdanch.contacts.presentation.host.OnListFragmentDataListener
 import kotlinx.android.synthetic.main.contact_fragment.*
 import java.util.*
 import javax.inject.Inject
 
-class AddContactFragment : Fragment(), IAddContactFragment {
+
+class AddContactFragment : Fragment(), IAddContactFragment, View.OnClickListener {
 
     @Inject
     lateinit var addContactPresenter: IAddContactPresenter
-
-    private var contactId : UUID? = null
+    private var contactId: UUID? = null
+    private var uri: Uri? = null
     private lateinit var listener: OnListFragmentDataListener
-    private var binding : ContactFragmentBinding? = null
+    private var binding: ContactFragmentBinding? = null
 
     init { App.get().plusAddContactModule(AddContactModule()).inject(this) }
 
@@ -38,7 +43,7 @@ class AddContactFragment : Fragment(), IAddContactFragment {
             = ContactFragmentBinding.inflate(inflater).apply { binding = this }.root
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        addImage.setOnClickListener(this)
         addContactPresenter.attachView(this)
         if (contactId != null){
             addContactPresenter.loadContact(contactId!!)
@@ -50,12 +55,11 @@ class AddContactFragment : Fragment(), IAddContactFragment {
         last_name_edit_text.setText(contact.lastName)
         midle_name_edit_text.setText(contact.midleName)
         phone_edit_text.setText(contact.telNumber)
+        addImage.setImageURI(Uri.parse(contact.photoUri))
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.contact_fragment_menu, menu)
-    }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
+            = inflater.inflate(R.menu.contact_fragment_menu, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -76,17 +80,30 @@ class AddContactFragment : Fragment(), IAddContactFragment {
         }
     }
 
-    override fun saveContact(contactId : UUID){
+    override fun addContact() = addContactPresenter.addContact()
+
+    override fun saveContact(contactId: UUID){
         val contact = Contact(contactId)
         contact.firstName = first_name_edit_text.text.toString()
         contact.lastName = last_name_edit_text.text.toString()
         contact.midleName = midle_name_edit_text.text.toString()
         contact.telNumber = phone_edit_text.text.toString()
+        contact.photoUri = uri.toString()
         addContactPresenter.updateContact(contact)
         listener.onSaveContact(contactId)
     }
 
-    override fun addContact() = addContactPresenter.addContact()
+    override fun onClick(v: View?) = startActivityForResult(Intent(Intent.ACTION_PICK,
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI), CAMERA_REQUEST)
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAMERA_REQUEST && data != null) {
+            uri = data.data
+            addImage.setImageURI(uri)
+            Log.i("MY_TAG","set ${data.data}")
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -101,6 +118,7 @@ class AddContactFragment : Fragment(), IAddContactFragment {
     companion object {
         const val TAG = "ContactFragment"
         const val ARG_CONTACT_ID = "contact_id"
+        const val CAMERA_REQUEST = 100
     }
 
     override fun onDestroy() {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,7 +16,7 @@
             android:layout_weight="1"
             android:hint="@string/last_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/addImage"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
@@ -27,7 +28,7 @@
             android:layout_weight="1"
             android:hint="@string/first_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/addImage"
             app:layout_constraintTop_toBottomOf="@+id/last_name_edit_text"
             tools:ignore="MissingConstraints" />
 
@@ -39,7 +40,7 @@
             android:layout_weight="1"
             android:hint="@string/midle_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintStart_toEndOf="@+id/addImage"
             app:layout_constraintTop_toBottomOf="@+id/first_name_edit_text"
             tools:ignore="MissingConstraints" />
 
@@ -59,11 +60,15 @@
             app:layout_constraintTop_toBottomOf="@+id/midle_name_edit_text"
             tools:ignore="MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="140dp"
-            android:layout_height="135dp"
-            app:srcCompat="@drawable/ic_photo"
-            tools:ignore="MissingConstraints,VectorDrawableCompat" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/addImage"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/ic_photo"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            fresco:roundAsCircle="true"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

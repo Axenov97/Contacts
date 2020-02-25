@@ -1,4 +1,4 @@
-package com.bignerdanch.contacts.dagger2.addcontact
+package com.bignerdanch.contacts.di.addcontact
 
 import com.bignerdanch.contacts.business.addcontact.AddContactInteractor
 import com.bignerdanch.contacts.business.addcontact.AddContactRepository

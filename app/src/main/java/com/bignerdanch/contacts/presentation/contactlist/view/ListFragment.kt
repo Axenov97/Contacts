@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bignerdanch.contacts.App
 import com.bignerdanch.contacts.R
-import com.bignerdanch.contacts.dagger2.contactlist.ContactListModule
 import com.bignerdanch.contacts.data.Contact
 import com.bignerdanch.contacts.databinding.ListFragmentBinding
+import com.bignerdanch.contacts.di.contactlist.ContactListModule
 import com.bignerdanch.contacts.presentation.contactlist.adapter.ContactAdapter
 import com.bignerdanch.contacts.presentation.contactlist.adapter.IOnItemClick
 import com.bignerdanch.contacts.presentation.contactlist.presenter.IContactListPresenter
@@ -45,18 +45,27 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
         super.onViewCreated(view, savedInstanceState)
         listPresenter.attachView(this)
         fab.setOnClickListener(this)
-
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recyclerAdapter = ContactAdapter(this, contacts)
         recycler_view.adapter = recyclerAdapter
         listPresenter.loadContactsList()
     }
 
-    override fun onClick(v: View?)
-            = openAddContact(null)
+    override fun onClick(v: View?) = openAddContact(null)
 
-    override fun openAddContact(contactId: UUID?)
-            = listener.onOpenAddContact(contactId)
+    override fun openAddContact(contactId: UUID?) = listener.onOpenAddContact(contactId)
+
+    override fun onClickContact(contactId: UUID) = listener.onOpenContact(contactId)
+
+    override fun onClickContactMenu(contactId: UUID, view: View) = showPopupMenu(view, contactId)
+
+    override fun onClickRing(contactId: UUID, view: View) = listPresenter.loadContact(contactId)
+
+    override fun ring(contact : Contact) {
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:${contact.telNumber}")
+        startActivity(intent)
+    }
 
     override fun updateContactsList(contactsList: List<Contact>) {
         contacts.clear()
@@ -64,24 +73,7 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
         recyclerAdapter.notifyDataSetChanged()
     }
 
-    override fun onClickContact(contactId: UUID)
-            = listener.onOpenContact(contactId)
-
-    override fun onClickContactMenu(contactId: UUID, view: View)
-            = showPopUpMenu(view, contactId)
-
-    override fun onClickRing(contactId: UUID, view: View) {
-        listPresenter.loadContact(contactId)
-    }
-
-    override fun ring(contact : Contact) {
-        val intent = Intent(Intent.ACTION_DIAL)
-        intent.data = Uri.parse("tel:${contact.telNumber}")
-        //Toast.makeText(activity, "${contact.telNumber}", Toast.LENGTH_SHORT).show()
-        startActivity(intent)
-    }
-
-    override fun showPopUpMenu(view: View, contactId: UUID) {
+    override fun showPopupMenu(view: View, contactId: UUID) {
         val popupMenu = PopupMenu(activity!!, view)
         id = contactId
         popupMenu.setOnMenuItemClickListener(this)
@@ -121,6 +113,4 @@ class ListFragment : Fragment(), IListFragment, View.OnClickListener, IOnItemCli
     companion object {
         const val TAG = "ListFragment"
     }
-
-
 }

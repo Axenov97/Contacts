@@ -2,12 +2,13 @@ package com.bignerdanch.contacts.presentation.showcontact.view
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.bignerdanch.contacts.App
 import com.bignerdanch.contacts.R
-import com.bignerdanch.contacts.dagger2.showcontact.ShowContactModule
 import com.bignerdanch.contacts.data.Contact
+import com.bignerdanch.contacts.di.showcontact.ShowContactModule
 import com.bignerdanch.contacts.presentation.host.OnListFragmentDataListener
 import com.bignerdanch.contacts.presentation.showcontact.presenter.IShowContactPresenter
 import kotlinx.android.synthetic.main.show_contact.*
@@ -19,7 +20,7 @@ class ShowContactFragment : Fragment(), IShowContactFragment {
     @Inject
     lateinit var showContactPresenter: IShowContactPresenter
     private lateinit var listener: OnListFragmentDataListener
-    private var contactId : UUID? = null
+    private var contactId: UUID? = null
 
     init { App.get().plusShowContactModule(ShowContactModule()).inject(this) }
 
@@ -40,15 +41,16 @@ class ShowContactFragment : Fragment(), IShowContactFragment {
         showContactPresenter.loadContact(contactId!!)
     }
 
-    override fun loadContactInfo(contact : Contact) {
+    override fun loadContactInfo(contact: Contact) {
         first_name_text.text = contact.firstName.toString()
         last_name_text.text = contact.lastName.toString()
         midle_name_text.text = contact.midleName.toString()
         phone_text.text = contact.telNumber.toString()
+        imageView.setImageURI(contact.photoUri, context)
+        Log.i("MY_TAG", " get ${contact.photoUri}")
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater)
-            = inflater.inflate(R.menu.show_contact_menu, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.show_contact_menu, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
@@ -60,9 +62,6 @@ class ShowContactFragment : Fragment(), IShowContactFragment {
         }
     }
 
-    override fun updateContact(contactId: UUID) {
-       showContactPresenter.updateContact(contactId)
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

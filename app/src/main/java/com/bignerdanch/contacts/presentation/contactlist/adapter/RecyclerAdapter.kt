@@ -12,14 +12,12 @@ import java.util.*
 
 class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts: List<Contact>) : RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
-            = ViewHolder( LayoutInflater.from(parent.context), parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(LayoutInflater.from(parent.context), parent)
 
-    override fun getItemCount()
-            = contacts.size
+    override fun getItemCount() = contacts.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int)
-            = holder.bind(contacts[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(contacts[position])
 
     inner class ViewHolder(inflater: LayoutInflater, parent: ViewGroup) : RecyclerView.ViewHolder
         (inflater.inflate(R.layout.item_view, parent, false)), View.OnClickListener {
@@ -27,7 +25,7 @@ class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts
         private val name: TextView = itemView.findViewById(R.id.contact_name)
         private val dots: ImageView = itemView.findViewById(R.id.dots_menu)
         private val ring: ImageView = itemView.findViewById(R.id.ring)
-        private lateinit var contacts :Contact
+        private lateinit var contacts: Contact
 
         init {
             dots.setOnClickListener(this)
@@ -39,23 +37,24 @@ class ContactAdapter(private var onItemClick: IOnItemClick, private var contacts
             contacts = contact
             name.text = contact.firstName
         }
+
         override fun onClick(v: View?) {
-        when(v!!.id){
-            R.id.item_view ->
-                onItemClick.onClickContact(contacts.contactId)
+            when(v!!.id) {
+                R.id.item_view ->
+                    onItemClick.onClickContact(contacts.contactId)
 
-            R.id.dots_menu ->
-                onItemClick.onClickContactMenu(contacts.contactId, dots)
+                R.id.dots_menu ->
+                    onItemClick.onClickContactMenu(contacts.contactId, dots)
 
-            R.id.ring ->
-                onItemClick.onClickRing(contacts.contactId, ring)
+                R.id.ring ->
+                    onItemClick.onClickRing(contacts.contactId, ring)
             }
         }
-
     }
 }
 
-interface IOnItemClick{
+interface IOnItemClick {
+
     fun onClickContact(contactId : UUID)
 
     fun onClickContactMenu(contactId : UUID, view : View)

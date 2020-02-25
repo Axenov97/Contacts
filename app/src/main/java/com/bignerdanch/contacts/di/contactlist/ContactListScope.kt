@@ -1,4 +1,4 @@
-package com.bignerdanch.contacts.dagger2.contactlist
+package com.bignerdanch.contacts.di.contactlist
 
 import java.lang.annotation.Retention
 import java.lang.annotation.RetentionPolicy

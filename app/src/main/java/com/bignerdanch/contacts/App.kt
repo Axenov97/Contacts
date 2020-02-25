@@ -1,16 +1,17 @@
 package com.bignerdanch.contacts
 
 import android.app.Application
-import com.bignerdanch.contacts.dagger2.addcontact.AddContactComponent
-import com.bignerdanch.contacts.dagger2.addcontact.AddContactModule
-import com.bignerdanch.contacts.dagger2.application.AppComponent
-import com.bignerdanch.contacts.dagger2.application.AppModule
-import com.bignerdanch.contacts.dagger2.application.DaggerAppComponent
+import com.bignerdanch.contacts.di.addcontact.AddContactComponent
+import com.bignerdanch.contacts.di.addcontact.AddContactModule
+import com.bignerdanch.contacts.di.application.AppComponent
+import com.bignerdanch.contacts.di.application.AppModule
+import com.bignerdanch.contacts.di.application.DaggerAppComponent
 
-import com.bignerdanch.contacts.dagger2.contactlist.ContactListComponent
-import com.bignerdanch.contacts.dagger2.contactlist.ContactListModule
-import com.bignerdanch.contacts.dagger2.showcontact.ShowContactComponent
-import com.bignerdanch.contacts.dagger2.showcontact.ShowContactModule
+import com.bignerdanch.contacts.di.contactlist.ContactListComponent
+import com.bignerdanch.contacts.di.contactlist.ContactListModule
+import com.bignerdanch.contacts.di.showcontact.ShowContactComponent
+import com.bignerdanch.contacts.di.showcontact.ShowContactModule
+import com.facebook.drawee.backends.pipeline.Fresco
 
 class App : Application() {
 
@@ -28,6 +29,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Fresco.initialize(this)
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()

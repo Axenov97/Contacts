@@ -10,7 +10,7 @@ interface IListFragment {
 
     fun updateContactsList(contactsList: List<Contact>)
 
-    fun showPopUpMenu(view: View, contactId: UUID)
+    fun showPopupMenu(view: View, contactId: UUID)
 
     fun ring(contact: Contact)
 }
